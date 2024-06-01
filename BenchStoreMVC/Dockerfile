@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine AS base
 RUN apk add --update --no-cache python3 py3-pip
-RUN pip3 install benchexec
+RUN pip3 install --break-system-packages benchexec
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
