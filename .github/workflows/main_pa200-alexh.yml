@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: pa200alexh.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ae97cc3821f3484ba3802f15f898bc4e }}/benchstore/azure:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./BenchStoreMVC/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
