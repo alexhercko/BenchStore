@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://pa200alexh.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_f1be5f1260c04990b3e0396c052bd0c3 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_19b84adaca464c7a879b820346914103 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_ae97cc3821f3484ba3802f15f898bc4e }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_666b669a71f54e70b3b64ccf1f9957b9 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: pa200alexh.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f1be5f1260c04990b3e0396c052bd0c3 }}/benchstore/azure:${{ github.sha }}
+        tags: pa200alexh.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ae97cc3821f3484ba3802f15f898bc4e }}/benchstore/azure:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'pa200-alexh'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b52ae98d714c48d9b37e02babaaaf5b0 }}
-        images: 'pa200alexh.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f1be5f1260c04990b3e0396c052bd0c3 }}/benchstore/azure:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_0e7fcf280ebb44d6bd4f4cd47d1d9100 }}
+        images: 'pa200alexh.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ae97cc3821f3484ba3802f15f898bc4e }}/benchstore/azure:${{ github.sha }}'
