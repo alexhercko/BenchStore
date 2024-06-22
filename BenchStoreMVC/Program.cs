@@ -1,3 +1,5 @@
+using Azure.Identity;
+
 using BenchStoreBL;
 using BenchStoreBL.Options;
 
@@ -12,8 +14,28 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
 
+string accessToken = null;
+
+try
+{
+    // Call managed identities for Azure resources endpoint.
+    var sqlServerTokenProvider = new DefaultAzureCredential();
+    accessToken = (await sqlServerTokenProvider.GetTokenAsync(
+        new Azure.Core.TokenRequestContext(scopes: new string[] { "https://ossrdbms-aad.database.windows.net/.default" }) { })).Token;
+
+} catch { }
+
+string host = Environment.GetEnvironmentVariable("POSTGRESQL_HOST") ?? "localhost"; 
+string user = Environment.GetEnvironmentVariable("POSTGRESQL_USER") ?? "postgres";
+string database = Environment.GetEnvironmentVariable("POSTGRESQL_DB") ?? "postgres";
+
+//
+// Open a connection to the PostgreSQL server using the access token.
+//
+string connString = $"Server={host}; User Id={user}; Database={database}; Port={5432}; Password={accessToken}; SSLMode=Prefer";
+
 builder.Services
-    .RegisterDALServices(builder.Configuration)
+    .RegisterDALServices(builder.Configuration, connString)
     .RegisterBLConfig(builder.Configuration)
     .RegisterBLServices();
 
